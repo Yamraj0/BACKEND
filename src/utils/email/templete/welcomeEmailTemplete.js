@@ -1,0 +1,102 @@
+export const welcomeEmailTemplete = (email,name)=>{
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Welcome Email</title>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #f4f4f7;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .container {
+    max-width: 600px;
+    background: #ffffff;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  .header {
+    text-align: center;
+    background: linear-gradient(135deg, #6a5af9, #8261fc);
+    padding: 40px 20px;
+    border-radius: 10px;
+    color: white;
+  }
+
+  .header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .content {
+    margin-top: 25px;
+    font-size: 16px;
+    color: #444;
+    line-height: 1.7;
+  }
+
+  .content a.btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: #6a5af9;
+    color: #ffffff !important;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .content a.btn:hover {
+    background: #5848e0;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 35px;
+    font-size: 14px;
+    color: #777;
+  }
+</style>
+</head>
+
+<body>
+  <div class="container">
+    
+    <div class="header">
+      <h1>Welcome ${name} 🎉</h1>
+    </div>
+
+    <div class="content">
+      <p>Hi <strong>${name}</strong>,</p>
+      <p>email <strong>${email}</strong>,</p>
+      <p>
+        We're super excited to have you join us!  
+        Your account is now active, and you’re all set to explore everything we offer.
+      </p>
+
+      <p>
+        If you ever need help, support, or guidance, feel free to reach out anytime — 
+        we’re here to help you succeed!
+      </p>
+
+      <a href="#" class="btn">Lets Explore</a>
+    </div>
+
+    <div class="footer">
+      © 2026  OJHA GROUP. All rights reserved.
+    </div>
+
+  </div>
+</body>
+</html>
+`
+}
