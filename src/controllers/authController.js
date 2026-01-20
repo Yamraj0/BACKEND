@@ -2,6 +2,8 @@ import { generateOTPCode } from "../utils/generateOTPCode.js"
 import { User } from "../models/userModel.js"
 import bcrypt from 'bcrypt'
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js"
+import { generateVerifyUrl } from '../utils/generateVerifyurl.js'
+import { verifcationEmail } from "../utils/email/config/email.js"
 
 
 
@@ -28,6 +30,11 @@ export const signup = async (req, res) => {
         const otpCode = generateOTPCode()
         console.log(otpCode);
         const expires = Date.now() + 24 * 60 * 60 * 100
+        const expiresUrl = Date.now() + 24 * 60 * 60 * 100
+
+
+        const verifyUrl = generateVerifyUrl()
+
 
         const user = await User.create({
             email,
@@ -35,8 +42,11 @@ export const signup = async (req, res) => {
             name,
             verificationToken: otpCode,
             isVerify: false,
-            verificationTokenExpiresAt: expires
+            verificationTokenExpiresAt: expires,
+            verificationUrl: verifyUrl,
+            verificationUrlExpiresAt: expiresUrl,
         })
+
 
         const userWithoutPassword = user.toObject();
         delete userWithoutPassword.password;
@@ -47,6 +57,10 @@ export const signup = async (req, res) => {
 
 
         // LOGIC FOR SEND EMAIL WITH VERIFICATION TOKEN 
+        verifcationEmail(user.name,user.email,`http:localhost:5000/api/auth/verifyemail/${verifyUrl}`,otpCode)
+
+        console.log(verifyUrl);
+
 
         res.status(200).json({
             success: true,
@@ -142,4 +156,56 @@ export const logout = async (req, res) => {
             message: "internal server error while logout"
         })
     }
+}
+
+export const verifyUrl = async (req, res) => {
+    const { token } = req.params
+    try {
+        const isValid = await User.findOne({ verificationUrl: token, verificationUrlExpiresAt: { $gt: Date.now() } })
+        if (!isValid) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid Token Or Token Expires'
+            })
+        }
+
+        isValid.isVerify = true
+        isValid.verificationUrl = undefined
+        isValid.verificationUrlExpiresAt = undefined
+
+        isValid.save()
+
+        res.status(200).json({message: 'verified'})
+
+
+    } catch (error) {
+        res.status(400).json({
+            message: "internal server error while logout"
+        })
+    }
+
+}
+
+export const verifyToken = async (req, res) => {
+    const { token } = req.body
+    try {
+        const isValid = await User.findOne({ verificationToken: token, verificationTokenExpiresAtAt: { $gt: Date.now() } })
+        if (!isValid) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid Token Or Token Expires'
+            })
+        }
+
+        isValid.isVerify = true
+        isValid.verificationToken = undefined
+        isValid.verificationTokenExpiresAt = undefined
+
+
+    } catch (error) {
+        res.status(400).json({
+            message: "internal server error while logout"
+        })
+    }
+
 }

@@ -1,26 +1,27 @@
 import { Freesend } from '@freesend/sdk';
 import { emailError } from './email_error.js';
 import { welcomeEmailTemplete } from '../templete/welcomeEmailTemplete.js';
+import { verifyEmailTemplete } from '../templete/verifyEmailTemplete.js';
 
 const freesend = new Freesend({
-  apiKey: process.env.FreeSend
+  apiKey: "1b772af7-1b71-4416-a0b7-3ff9e1f500f5"
 });
 
 
-export const verifcationEmail = async (email, code) => {
+export const verifcationEmail = async (name,email,verificationUrl,verifyToken) => {
   try {
-    await freesend.sendEmail({
+    const response = await freesend.sendEmail({
       fromName: 'OJHA GROUP',
       fromEmail: 'ojha@gmail.com',
       to: email,
-      subject: 'Test email',
-      html: 'hey',
-      text: 'hey',
+      subject: 'Email Verification',
+      html: verifyEmailTemplete(name,verificationUrl,verifyToken),
     });
+
+    console.log(response.message)
   } catch (error) {
     emailError(error)
   }
-
 
 }
 

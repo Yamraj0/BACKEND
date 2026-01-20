@@ -1,4 +1,5 @@
-`<!DOCTYPE html>
+export const verifyEmailTemplete =(name,verificationUrl,verifyToken)=>{
+    return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -44,3 +45,4 @@
   </table>
 </body>
 </html>`
+} 
