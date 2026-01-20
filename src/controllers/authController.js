@@ -2,7 +2,7 @@ import { generateOTPCode } from "../utils/generateOTPCode.js"
 import { User } from "../models/userModel.js"
 import bcrypt from 'bcrypt'
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js"
-import { generateVerifyUrl } from '../utils/generateVerifyurl.js'
+import { generateVerifyUrl } from '../utils/generateVerifyUrl.js'
 import { verifcationEmail } from "../utils/email/config/email.js"
 
 
